@@ -1,0 +1,192 @@
+CREATE TABLE dbo.AccountTypes
+	(
+	seqno INT NOT NULL,
+	typeid INT NOT NULL,
+	typename VARCHAR(30) NULL,
+	createdDate DATETIME NULL,
+	deletedDate DATETIME NULL,
+	updatedDate DATETIME NULL,
+	CONSTRAINT PK__AccountT__E116D28C2B3F6F97 PRIMARY KEY (seqno,typeid)
+	)
+GO
+
+
+
+CREATE TABLE dbo.BankAccounts
+	(
+	seqno INT NOT NULL,
+	AccNo INT NOT NULL,
+	accType INT NULL,
+	accName VARCHAR(30) NULL,
+	interestDR NUMERIC(18,3) NULL,
+	CreatedDate DATETIME NULL,
+	UpdatedDate DATETIME NULL,
+	DeletedDate DATETIME NULL,
+	InitialDepositReq INT NULL,
+	MaintainingBalance INT NULL,
+	CONSTRAINT PK__BankAcco__F70F46E91BFD2C07 PRIMARY KEY (seqno,AccNo)
+	)
+GO
+
+
+
+CREATE TABLE dbo.CustomerBankAccounts
+	(
+	seqno INT NOT NULL,
+	CusAccNo INT NOT NULL,
+	CustomerID INT NULL,
+	AccID INT NULL,
+	ApprovedDate DATETIME NULL,
+	Balance NUMERIC(18,3) NULL,
+	Status VARCHAR(20) NULL,
+	createdDate DATETIME NULL,
+	deletedDate DATETIME NULL,
+	updatedDate DATETIME NULL,
+	MaturityDate DATETIME NULL,
+	AmountWithInterest NUMERIC(10,4) NULL,
+	CONSTRAINT PK__Customer__07E52E102F10007B PRIMARY KEY (seqno,CusAccNo)
+	)
+GO
+
+
+
+CREATE TABLE dbo.Customers
+	(
+	Seqno INT NOT NULL,
+	CustomerID INT NOT NULL,
+	LastName VARCHAR(30) NULL,
+	FirstName VARCHAR(30) NULL,
+	MiddleName VARCHAR(30) NULL,
+	Age INT NULL,
+	BirthDate DATETIME NULL,
+	Gender VARCHAR(10) NULL,
+	CivilStatus VARCHAR(10) NULL,
+	Address VARCHAR(30) NULL,
+	ContactNo NUMERIC(11,0) NULL,
+	Email VARCHAR(30) NULL,
+	SSSno INT NULL,
+	TINno INT NULL,
+	RegistrationDate DATETIME NULL,
+	CreatedDate DATETIME NULL,
+	DeletedDate DATETIME NULL,
+	UpdatedDate DATETIME NULL,
+	Photo VARCHAR(500) NULL,
+	CONSTRAINT PK__Customer__E0B016EE145C0A3F PRIMARY KEY (Seqno,CustomerID)
+	)
+GO
+
+
+CREATE TABLE dbo.Employee
+	(
+	Seqno INT NOT NULL,
+	EmpID VARCHAR(7) NOT NULL,
+	LastName VARCHAR(30) NULL,
+	FirstName VARCHAR(30) NULL,
+	MiddleName VARCHAR(30) NULL,
+	Photo VARCHAR(1000) NULL,
+	Status VARCHAR(20) NULL,
+	Sex VARCHAR(20) NULL,
+	CivilStatus VARCHAR(20) NULL,
+	BirthDate DATETIME NULL,
+	Age INT NULL,
+	ContactNo INT NULL,
+	email VARCHAR(40) NULL,
+	PresentAddress VARCHAR(30) NULL,
+	ProvincialAddress VARCHAR(30) NULL,
+	DateHired DATETIME NULL,
+	Department VARCHAR(20) NULL,
+	Section VARCHAR(20) NULL,
+	Position VARCHAR(20) NULL,
+	Salary INT NULL,
+	SSSno VARCHAR(15) NULL,
+	TINno VARCHAR(15) NULL,
+	ConLastName VARCHAR(30) NULL,
+	ConFirstName VARCHAR(30) NULL,
+	ConMiddleName VARCHAR(30) NULL,
+	Relation VARCHAR(30) NULL,
+	ConCellno INT NULL,
+	Address VARCHAR(30) NULL,
+	CONSTRAINT PK__Employee__F0082B0203317E3D PRIMARY KEY (Seqno,EmpID)
+	)
+GO
+
+CREATE TABLE dbo.Transactions
+	(
+	Seqno INT NOT NULL,
+	TransNo INT NOT NULL,
+	TransType VARCHAR(30) NULL,
+	AccountName INT NULL,
+	CustomerName INT NULL,
+	Balance NUMERIC(18,3) NULL,
+	Amount INT NULL,
+	Total NUMERIC(18,3) NULL,
+	TransDate DATETIME NULL,
+	CONSTRAINT PK__Transact__531F23A9276EDEB3 PRIMARY KEY (Seqno,TransNo)
+	)
+GO
+
+CREATE TABLE dbo.Users
+	(
+	Seqno INT NOT NULL,
+	UserID VARCHAR(7) NOT NULL,
+	Password VARCHAR(30) NULL,
+	Lastname VARCHAR(30) NULL,
+	FirstName VARCHAR(30) NULL,
+	MiddleName VARCHAR(30) NULL,
+	UserRights VARCHAR(20) NULL,
+	CreatedDate DATETIME NULL,
+	DeletedDate DATETIME NULL,
+	UpdatedDate DATETIME NULL,
+	CONSTRAINT PK__Users__AB827C6F08EA5793 PRIMARY KEY (Seqno,UserID)
+	)
+GO
+
+
+CREATE VIEW AmtDeposited AS 
+SELECT accountname , transtype, sum (amount) AS Amount FROM Transactions  WHERE TransType='Deposit'
+GROUP BY accountname, transtype 
+
+GO
+
+CREATE VIEW AmtWithdrawed AS 
+SELECT accountname , transtype, sum (amount) AS Amount FROM Transactions  WHERE TransType='Withdraw'
+GROUP BY accountname, transtype 
+
+GO
+
+CREATE VIEW  FixedDepositAcc
+AS SELECT cusaccno , customerid, accid, BankAccounts.accType, balance , status ,approveddate, maturitydate,
+year(maturitydate)-(year(approveddate)) AS years, amountwithinterest ,
+year (CustomerBankAccounts.MaturityDate) AS YYYY , month (CustomerBankAccounts.MaturityDate)  AS MM , 
+day (CustomerBankAccounts.MaturityDate) AS DD FROM CustomerBankAccounts
+
+INNER JOIN BankAccounts
+ON CustomerBankAccounts.AccID=BankAccounts.AccNo
+INNER JOIN AccountTypes
+ON BankAccounts.accType=AccountTypes.typeid
+WHERE BankAccounts.accType	=22
+GO
+
+
+CREATE VIEW	SearchCustomerAccount as
+SELECT 
+CustomerBankAccounts.CusAccNo, BankAccounts.accType,
+CustomerBankAccounts.CustomerID,CustomerBankAccounts.AccID,
+CustomerBankAccounts.ApprovedDate, CustomerBankAccounts.MaturityDate, 
+CustomerBankAccounts.Balance, CustomerBankAccounts.deletedDate
+FROM CustomerBankAccounts 
+INNER JOIN BankAccounts ON
+CustomerBankAccounts.AccID = BankAccounts.AccNo
+INNER JOIN AccountTypes ON
+AccountTypes.typeid = BankAccounts.accType
+
+GO
+
+CREATE VIEW SearchTransaction
+AS SELECT transno, transtype, AccountName, Customername, balance, amount, total,transDate,
+ year (Transactions.TransDate) AS YYYY,month (Transactions.TransDate) AS MM,
+ day(Transactions.TransDate) AS DD  FROM Transactions
+GO
+
+
+

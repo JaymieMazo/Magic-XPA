@@ -1,0 +1,110 @@
+admin side
+ ************- opening/closing customer account 
+ - modify customer account
+ - statement of customer account
+ - daily/monthly statement
+ 	- total number of customer in bank (footer)
+ 	- total balance in bank(all customers)(footer)
+ - individual customer report	
+ - transaction record
+ - change password
+ - approval of pending notification(modification of customer account details)
+ - fixed deposit account
+
+----------------------------------------------
+
+user side
+ - deposit
+ - withdraw
+ - modify account details (with authorization of admin)
+ - closing account (with authorization of admin)
+ - fixed deposit account (with duedate) (fixed amount)
+	if duedate is true then
+	 - report of fixed deposit form the start of his/her deposit to duedate.
+	 - close the fixed deposit account
+	end if
+
+-----------------------------------------------
+
+other information
+
+(fixed deposit)
+ - fixed deposit has an interest
+ - that interest has a fix rate of 3% per deposit of a customer per month
+ - the interest will vary every 45 days and it automatically added to customers savings account
+ - the balance in fixed deposit are not allowed for withdrawal unless it meets the maturity.
+
+(bank)
+ - every day the balance in the bank will be sponsored with 10000php.
+
+---------------------------------------------
+accounts passwords
+
+0 - James Delima - 111111 - 150000 - 2016/09/08 - 09:01:00
+1 - Jordan Villanueva - 222222 - 26200 - '' - 09.02.00
+2 - Mark Dualan - 333333 - 30000 - " - 09.03.00
+3 - Lawrence Villarente -  444444 - 10000 - 09.04.00
+4 - Ricardo Remulla -  555555 - 6000 - 09.05.00
+5 - Anna Mary Holasca - 666666 - 70000 - 09.06.00
+6 - Edralyn Lisama -  777777 - 40000 - 09.07.00
+7 - Julia Padilla - 888888 - 20000 - 2016/09/09 - 16.58.00
+8 - Clarissa Hilario - 999999 - 13000 - 16.59.00
+9 - Kirito Kirigaya - 100000 - 45000 - 17.00.00
+10 - Ronalyn Valencia - 100010 - 3200 - 17.01.00
+11 - Cindy Ramirez - 100011 - 8000 - 17.02.00
+12 - Trisha Garcia 100012 - 25000 - 17.03.00
+13 - Aljon Isopropyl - 100013 - 4700 - 17.04.00
+14 - Lhanie Delena - 100014 - 9000 - 17.05.00
+15 - Cristine Reyes - 100015 - 3000 - 17.06.00
+16 - Angelo Dacon - 100016 - 80000 - 17.07.00
+17 - Dave Kadabis - 100017 - 71000 - 17.08.00
+18 - Romelisa Robles - 100018 - 2600 - 2016/09/10 - 12.00.01
+19 - Ronaldo Arcon - 100019 - 1300 -  09/11 - 9.30.45
+20 - Aldrin Buhain - 100020 - 27400 - 09/15 - 15.00.58
+21 - Jonabel Alulod - 100021 - 19000 - 09/16 - 06.03.25
+22 - Rose Marie Lacsamana - 100022 - 9800 - 09.47.00
+23 - Jan Adam Dann Dayrit - 100023 - 16500 - 15.30.01
+24 - John Paulo Lim - 100024 - 17500 - 09/17 - 7.30.24
+25 - Benidict Dulce - 100025 - 4900 - 12.36.48
+26 - Kimberly Claire C Dela Cruz - 100026 - 150000 - 17.42.15
+
+---------------------------------------------
+=database=
+
+admin
+ - username
+ - password
+
+bankaccounts
+ - account number - 10
+ - account name - 30
+ - lastname - 20
+ - firstname - 20
+ - mi - 1
+ - balance - 15
+ - pincode - 6
+ - date of birth - date
+ - gender - 6
+ - provincial address - 70
+ - present address - 70
+ - phone number - 11
+ - civil status - 20
+ - mother_lastname - 20
+ - mother_firstname - 20
+ - mother_mi - 1
+ - father_lastname - 20
+ - father_firstname - 20
+ - father_mi - 1
+ - status - 5
+
+fixeddepositaccounts
+ - account number
+ - balance
+ - duedate
+ - status
+
+history
+ - account number
+ - date
+ - time
+ - amount

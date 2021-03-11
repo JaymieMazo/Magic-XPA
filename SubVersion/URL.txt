@@ -1,0 +1,4 @@
+https://sdfileserver.hrd-s.com/svn/MagicXPA
+https://sdfileserver.hrd-s.com/svn/Training
+
+https://SD_SQL_TRAINING.hrd-s.com/svn/Training
